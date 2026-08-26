@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Submission Received - Local Login Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page-shell success-shell">
+        <section class="login-card success-card" aria-labelledby="success-title">
+            <div class="success-mark" aria-hidden="true">✓</div>
+            <h1 id="success-title">Demo form submitted successfully.</h1>
+            <div class="received-data">
+                <p><strong>Username received:</strong> {{ username }}</p>
+                <p><strong>Password received:</strong> {{ password_mask }}</p>
+            </div>
+            <p class="safety-note">The password was discarded. Only its length was saved.</p>
+            <a class="login-button back-button" href="/">Back to Login</a>
+        </section>
+    </main>
+</body>
+</html>

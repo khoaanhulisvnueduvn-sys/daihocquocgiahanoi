@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in to VNU</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="login-card login-form-card" aria-labelledby="page-title">
+            <h1 class="visually-hidden" id="page-title">Mô phỏng đăng nhập cục bộ</h1>
+
+            <!-- POST sends the form fields to the Flask route at /. -->
+            <form method="POST" action="/">
+                <div class="field-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <div class="input-row">
+                        <span class="input-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false">
+                                <circle cx="12" cy="8" r="4"></circle>
+                                <path d="M4.5 20c0-4.1 3.1-7 7.5-7s7.5 2.9 7.5 7z"></path>
+                            </svg>
+                        </span>
+                        <!-- name="username" becomes the request.form["username"] key. -->
+                        <input id="username" name="username" type="text" autocomplete="username" required>
+                    </div>
+                </div>
+
+                <div class="field-group password-group">
+                    <label for="password">Mật khẩu</label>
+                    <div class="input-row">
+                        <span class="input-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false">
+                                <path d="M14.6 4.4a6 6 0 0 0-7.9 7.9L2 17v5h5v-3h3v-3h2.3a6 6 0 0 0 2.3-11.6zm3 4.6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
+                            </svg>
+                        </span>
+                        <!-- The password name lets Flask read request.form["password"]. -->
+                        <input id="password" name="password" type="password" autocomplete="current-password" required>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-option">
+                        <input type="checkbox" name="remember" checked>
+                        <span>Ghi nhớ</span>
+                    </label>
+                    <a class="forgot-link" href="{{ url_for('forgot_password') }}">Quên mật khẩu?</a>
+                </div>
+
+                <button class="login-button" type="submit">Đăng nhập</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
