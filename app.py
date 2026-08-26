@@ -50,7 +50,7 @@ def index():
         # Append one JSON object and a newline, producing a JSON Lines file.
         with SUBMISSIONS_FILE.open("a", encoding="utf-8") as file:
             file.write(json.dumps(submission, ensure_ascii=False) + "\n")
-
+        submissions_collection.insert_one(submission.copy())
         # The password is no longer needed, so deliberately discard it.
         del password
 
